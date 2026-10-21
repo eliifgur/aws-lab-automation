@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# vpc-lab.sh — build (or tear down) a small AWS VPC lab with the AWS CLI.
+# bastion-host.sh — build (or tear down) a small AWS VPC lab with the AWS CLI.
 #
 # Creates:
 #   - VPC (10.0.0.0/16) with DNS hostnames enabled
@@ -12,8 +12,8 @@
 #   - SSH verification through the bastion (jump host)
 #
 # Usage:
-#   ./vpc-lab.sh up [--verify]     # create everything
-#   ./vpc-lab.sh down              # delete everything created by "up"
+#   ./bastion-host.sh up [--verify]     # create everything
+#   ./bastion-host..sh down              # delete everything created by "up"
 #
 # Env overrides: AWS_REGION, PROJECT, INSTANCE_TYPE, MY_IP
 # Requires: aws CLI v2 (credentials configured), curl, ssh

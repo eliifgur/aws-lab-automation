@@ -37,9 +37,9 @@ tears it all down with another.
 ## Usage
 
 ```bash
-./vpc-lab.sh up            # create everything
-./vpc-lab.sh up --verify   # create + test SSH through the bastion
-./vpc-lab.sh down          # delete everything
+./bastion-host.sh up            # create everything
+./bastion-host.sh up --verify   # create + test SSH through the bastion
+./bastion-host.sh down          # delete everything
 ```
 
 When `up` finishes it prints ready-to-use SSH commands for the jump-host and
@@ -55,13 +55,13 @@ agent-forwarding methods.
 | `MY_IP` | auto-detected | IP allowed to SSH to the bastion |
 
 ```bash
-AWS_REGION=eu-west-1 INSTANCE_TYPE=t3.small ./vpc-lab.sh up
+AWS_REGION=eu-west-1 INSTANCE_TYPE=t3.small ./bastion-host.sh up
 ```
 
 ## Cleanup
 
 ```bash
-./vpc-lab.sh down
+./bastion-host.sh down
 ```
 
 Use the same `AWS_REGION` and `PROJECT` values you used for `up`. Resource IDs
