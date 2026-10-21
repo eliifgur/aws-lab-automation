@@ -7,13 +7,13 @@
 #   - Internet Gateway attached to the VPC
 #   - Public route table (0.0.0.0/0 -> IGW) associated with the public subnet
 #   - Security groups: bastion (SSH from your IP) and private (SSH from bastion only)
-#   - A shared Network ACL for each subnet
+#   - A shared Network ACL for both subnets
 #   - Key pair + two EC2 instances (bastion in public, app in private)
 #   - SSH verification through the bastion (jump host)
 #
 # Usage:
 #   ./bastion-host.sh up [--verify]     # create everything
-#   ./bastion-host..sh down              # delete everything created by "up"
+#   ./bastion-host.sh down              # delete everything created by "up"
 #
 # Env overrides: AWS_REGION, PROJECT, INSTANCE_TYPE, MY_IP
 # Requires: aws CLI v2 (credentials configured), curl, ssh
@@ -31,6 +31,7 @@ KEY_FILE="./${KEY_NAME}.pem"
 STATE_FILE="./${PROJECT}.state"
 AMI_PARAM="/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 
+export AWS_PAGER=""
 export AWS_DEFAULT_REGION="$REGION"
 
 log()  { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
@@ -260,8 +261,7 @@ down() {
   [[ -n "${BASTION_SG:-}" ]] && { log "Deleting SG $BASTION_SG"; aws ec2 delete-security-group --group-id "$BASTION_SG"; }
   [[ -n "${PUB_SUBNET:-}" ]]  && { log "Deleting subnet $PUB_SUBNET"; aws ec2 delete-subnet --subnet-id "$PUB_SUBNET"; }
   [[ -n "${PRIV_SUBNET:-}" ]] && { log "Deleting subnet $PRIV_SUBNET"; aws ec2 delete-subnet --subnet-id "$PRIV_SUBNET"; }
-  [[ -n "${PUB_NACL:-}" ]]    && { log "Deleting NACL $PUB_NACL"; aws ec2 delete-network-acl --network-acl-id "$PUB_NACL"; }
-  [[ -n "${PRIV_NACL:-}" ]]   && { log "Deleting NACL $PRIV_NACL"; aws ec2 delete-network-acl --network-acl-id "$PRIV_NACL"; }
+  [[ -n "${SHARED_NACL:-}" ]]    && { log "Deleting NACL $SHARED_NACL"; aws ec2 delete-network-acl --network-acl-id "$SHARED_NACL"; }
   [[ -n "${RTB_ID:-}" ]]      && { log "Deleting route table $RTB_ID"; aws ec2 delete-route-table --route-table-id "$RTB_ID"; }
   if [[ -n "${IGW_ID:-}" ]]; then
     log "Detaching/deleting IGW $IGW_ID"
