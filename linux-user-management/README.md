@@ -1,4 +1,4 @@
-# Example name
+# Automate User Creation with Python on EC2
 
 Creates a new Linux user with a name of your choice, creates a home directory for the user (if one is not automatically created), and ensures that the user owns their home directory.
 
