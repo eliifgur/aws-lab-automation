@@ -8,6 +8,7 @@ with its own script and README.
 | Example | Description | Tools |
 |---|---|---|
 | [bastion-host](bastion-host/) | Builds a VPC with public/private subnets, IGW, route table, security groups, NACLs and two EC2 instances (bastion + private), then tears it all down | Bash, AWS CLI v2 |
+| [linux-user-management](linux-user-management/) | Interactively creates a Linux user with a password and home directory | Python 3, sudo |
 
 ## Repository layout
 
